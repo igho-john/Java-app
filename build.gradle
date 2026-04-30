@@ -2,12 +2,33 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '2.2.2.RELEASE'
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+    id 'maven-publish'
 }
 
 group 'com.example'
 version '1.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            artifact("build/libs/my-java-app-$version" + ".jar") {
+                extension 'jar'
+            }
+        }
+    }
+    repositories {
+        maven {
+            url "http://3.99.178.104:8081/repository/maven-snapshots/"
+            allowInsecureProtocol = true
+            credentials {
+                username repoUser
+                password repoPassword
+            }
+        }
+    }
+}
 
 repositories {
     mavenCentral()
